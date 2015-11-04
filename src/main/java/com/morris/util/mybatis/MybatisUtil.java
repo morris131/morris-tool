@@ -2,8 +2,6 @@ package com.morris.util.mybatis;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -20,17 +18,20 @@ import org.mybatis.generator.config.TableConfiguration;
 import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
+/**
+ * mybatis自动生成xml,entity,entityExample,dao文件
+ * @author morris
+ *
+ */
 public class MybatisUtil {
 	
 	public static void generate(MybatisBean bean) {
 	
-		List<String> warnings = new ArrayList<String>();
-		boolean overwrite = true;
 		Configuration config = new Configuration();
 		
 		Context context = new Context(null);
 		
-		context.setId("Table2");
+		context.setId("table");
 		
 		// 数据库连接
 		JDBCConnectionConfiguration jdbc = new JDBCConnectionConfiguration();
@@ -38,6 +39,7 @@ public class MybatisUtil {
 		jdbc.setConnectionURL(bean.getConnectionUrl());
 		jdbc.setUserId(bean.getUserName());
 		jdbc.setPassword(bean.getPassword());
+		jdbc.addProperty("remarksReporting","true"); // oracle加上此字段才能访问到注释
 		context.setJdbcConnectionConfiguration(jdbc);
 		
 		// 去掉注释
@@ -48,8 +50,13 @@ public class MybatisUtil {
 		// 插件
 		// 序列化插件
 		PluginConfiguration serializablePlugin = new PluginConfiguration();
-		serializablePlugin.setConfigurationType("com.morris.mybatis.plugins.SerializablePlugin");
+		serializablePlugin.setConfigurationType("com.morris.util.mybatis.SerializablePlugin");
 		context.addPluginConfiguration(serializablePlugin);
+		
+		// 注释插件
+		PluginConfiguration tableCommentPlugin = new PluginConfiguration();
+		tableCommentPlugin.setConfigurationType("com.morris.util.mybatis.TableCommentPlugin");
+		context.addPluginConfiguration(tableCommentPlugin);
 		
 		// 分页插件
 		PluginConfiguration rowBoundsPlugin = new PluginConfiguration();
@@ -65,7 +72,6 @@ public class MybatisUtil {
 		PluginConfiguration likePlugin = new PluginConfiguration();
 		likePlugin.setConfigurationType("org.mybatis.generator.plugins.CaseInsensitiveLikePlugin");
 		context.addPluginConfiguration(likePlugin);
-		
 		
 		// 实体类的生成
 		JavaModelGeneratorConfiguration model = new JavaModelGeneratorConfiguration();
@@ -96,10 +102,10 @@ public class MybatisUtil {
 		}
 		
 		config.addContext(context);
-		DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+		DefaultShellCallback callback = new DefaultShellCallback(true);
 		MyBatisGenerator myBatisGenerator;
 		try {
-			myBatisGenerator = new MyBatisGenerator(config,callback, warnings);
+			myBatisGenerator = new MyBatisGenerator(config,callback, null);
 			ProgressCallback progressCallback = new MyProgressCallback();
 			
 			myBatisGenerator.generate(progressCallback);
