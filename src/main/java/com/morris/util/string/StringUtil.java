@@ -118,5 +118,22 @@ public class StringUtil {
 		
 		return sb.toString();
 	}
+	
+	/**
+	 * 将字符串转成驼峰命名方式，如REFUND_PLATFORM_ORDER转成RefundPlatformOrder
+	 * @param name
+	 * @return
+	 */
+	public static String toHump(String name) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		String[] split = name.split("_");
+		
+		for (String str : split) {
+			sb.append(str.substring(0, 1).toUpperCase()+str.substring(1).toLowerCase()); 
+		}
+		return sb.toString();
+	}
 
 }
