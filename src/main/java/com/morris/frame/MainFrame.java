@@ -42,12 +42,6 @@ import com.morris.util.json.Json2Bean;
 import com.morris.util.json.Json2Tree;
 import com.morris.util.json.JsonUtil;
 
-import javax.swing.JList;
-import javax.swing.JEditorPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JCheckBox;
-
 public class MainFrame extends JFrame {
 
 	private JTextArea textArea;
