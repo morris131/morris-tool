@@ -33,7 +33,10 @@ public class TableCommentPlugin extends PluginAdapter{
 			IntrospectedColumn column = introspectedTable.getAllColumns().get(i);
 			String remarks = column.getRemarks(); //
 			
-			element.getElements().add(new TextElement("<!--" + remarks + "-->"));
+			if(null != remarks && !"".equals(remarks)) {
+				element.getElements().add(new TextElement("<!--" + remarks + "-->"));
+			}
+			
 			element.getElements().add(elements.get(i));
 			
 		}

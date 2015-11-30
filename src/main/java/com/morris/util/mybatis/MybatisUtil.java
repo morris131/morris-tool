@@ -32,6 +32,7 @@ public class MybatisUtil {
 		Context context = new Context(null);
 		
 		context.setId("table");
+		context.setTargetRuntime("com.morris.util.mybatis.IntrospectedTableImpl");
 		
 		// 数据库连接
 		JDBCConnectionConfiguration jdbc = new JDBCConnectionConfiguration();
@@ -73,6 +74,16 @@ public class MybatisUtil {
 		likePlugin.setConfigurationType("org.mybatis.generator.plugins.CaseInsensitiveLikePlugin");
 		context.addPluginConfiguration(likePlugin);
 		
+		// service接口插件
+		PluginConfiguration serviceInterPluginPlugin = new PluginConfiguration();
+		serviceInterPluginPlugin.setConfigurationType("com.morris.util.mybatis.ServiceInterPlugin");
+		context.addPluginConfiguration(serviceInterPluginPlugin);
+		
+		// service接口插件
+		PluginConfiguration serviceImplPluginPlugin = new PluginConfiguration();
+		serviceImplPluginPlugin.setConfigurationType("com.morris.util.mybatis.ServiceImplPlugin");
+		context.addPluginConfiguration(serviceImplPluginPlugin);
+		
 		// 实体类的生成
 		JavaModelGeneratorConfiguration model = new JavaModelGeneratorConfiguration();
 		model.setTargetPackage(bean.getEntityPackage());
@@ -100,6 +111,15 @@ public class MybatisUtil {
 			tableConfiguration.setDomainObjectName(entry.getValue());
 			context.addTableConfiguration(tableConfiguration);
 		}
+		
+		context.addProperty("entityPackage", bean.getEntityPackage());
+		context.addProperty("entityPath", bean.getEntityPath());
+		context.addProperty("daoPackage", bean.getDaoPackage());
+		context.addProperty("daoPath", bean.getDaoPath());
+		context.addProperty("serviceInterPackage", bean.getServiceInterPackage());
+		context.addProperty("serviceInterPath", bean.getServiceInterPath());
+		context.addProperty("serviceImplPackage", bean.getServiceImplPackage());
+		context.addProperty("serviceImplPath", bean.getServiceImplPath());
 		
 		config.addContext(context);
 		DefaultShellCallback callback = new DefaultShellCallback(true);

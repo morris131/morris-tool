@@ -31,10 +31,18 @@ public class MybatisBean implements Serializable {
 
 	private String xmlPath;
 
-	private Map<String, String> tableMap;
+	private String serviceInterPackage;
+
+	private String serviceInterPath;
 	
+	private String serviceImplPackage;
+
+	private String serviceImplPath;
+
+	private Map<String, String> tableMap;
+
 	public void addTable(String tableName, String objName) {
-		if(tableMap == null) {
+		if (tableMap == null) {
 			tableMap = new HashMap<String, String>();
 		}
 		tableMap.put(tableName, objName);
@@ -127,5 +135,39 @@ public class MybatisBean implements Serializable {
 	public void setTableMap(Map<String, String> tableMap) {
 		this.tableMap = tableMap;
 	}
+
+	public String getServiceInterPackage() {
+		return serviceInterPackage;
+	}
+
+	public void setServiceInterPackage(String serviceInterPackage) {
+		this.serviceInterPackage = serviceInterPackage;
+	}
+
+	public String getServiceInterPath() {
+		return serviceInterPath;
+	}
+
+	public void setServiceInterPath(String serviceInterPath) {
+		this.serviceInterPath = serviceInterPath;
+	}
+
+	public String getServiceImplPackage() {
+		return serviceImplPackage;
+	}
+
+	public void setServiceImplPackage(String serviceImplPackage) {
+		this.serviceImplPackage = serviceImplPackage;
+	}
+
+	public String getServiceImplPath() {
+		return serviceImplPath;
+	}
+
+	public void setServiceImplPath(String serviceImplPath) {
+		this.serviceImplPath = serviceImplPath;
+	}
+	
+	
 
 }

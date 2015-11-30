@@ -35,11 +35,15 @@ public class MybatisUtilTest{
 		bean.setXmlPackage(xmlPackage);
 		String xmlPath = "src/main/java";
 		bean.setXmlPath(xmlPath);
-		bean.setEntityPackage("entity");
+		bean.setEntityPackage("cn.tempus.prodcloud.entity.refund");
 		bean.setEntityPath(xmlPath);
-		bean.setDaoPackage("dao");
+		bean.setDaoPackage("cn.tempus.prodcloud.dao.refund");
 		bean.setDaoPath(xmlPath);
-		bean.addTable("REFUND_AGENT_ORDER", "RefundAgentOrder");
+		bean.setServiceInterPackage("cn.tempus.prodcloud.service.refund");
+		bean.setServiceInterPath(xmlPath);
+		bean.setServiceImplPackage("cn.tempus.prodcloud.service.refund");
+		bean.setServiceImplPath(xmlPath);
+		bean.addTable("REFUND_TSL_EXTRACT_FILE", "RefundTslExtractFile");
 		
 		MybatisUtil.generate(bean);
 		
