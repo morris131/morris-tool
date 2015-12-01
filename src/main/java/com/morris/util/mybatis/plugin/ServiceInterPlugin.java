@@ -1,4 +1,4 @@
-package com.morris.util.mybatis;
+package com.morris.util.mybatis.plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,34 +15,36 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.config.TableConfiguration;
 
-
+/**
+ * 生成service接口插件
+ * @author lian.chen
+ *
+ */
 public class ServiceInterPlugin extends PluginAdapter{
 	
 	
 	@Override
 	public boolean validate(List<String> warnings) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	
 	@Override
 	public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(IntrospectedTable introspectedTable) {
-		// TODO Auto-generated method stub
 		
 		properties = this.getContext().getProperties();
 		
 		TableConfiguration tableConfiguration = introspectedTable.getTableConfiguration();
-		String domainObjectName = tableConfiguration.getDomainObjectName();
-		String className = tableConfiguration.getDomainObjectName() + "WsService";
+		String domainObjectName = tableConfiguration.getDomainObjectName();//实体类名
+		String className = tableConfiguration.getDomainObjectName() + "WsService";// service接口名
 		
-		String targetPackage = properties.getProperty("serviceInterPackage");
-		String targetProject = properties.getProperty("serviceInterPath");
+		String serviceInterPackage = properties.getProperty("serviceInterPackage");
+		String serviceInterPath = properties.getProperty("serviceInterPath");
 		String entityPackage = properties.getProperty("entityPackage");
 		
 		IntrospectedColumn primaryColumn = introspectedTable.getPrimaryKeyColumns().get(0);
-		String keyName = primaryColumn.getJavaProperty();
-		FullyQualifiedJavaType keyType = primaryColumn.getFullyQualifiedJavaType();
+		String keyName = primaryColumn.getJavaProperty();//实体类主键属性名
+		FullyQualifiedJavaType keyType = primaryColumn.getFullyQualifiedJavaType();//实体类主键类型
 		
 		String fullEntityName = entityPackage + "." + domainObjectName;
 		String fullEntityExampleName = entityPackage + "." + domainObjectName + "Example";
@@ -58,7 +60,7 @@ public class ServiceInterPlugin extends PluginAdapter{
 		
 		List<GeneratedJavaFile> result = new ArrayList<GeneratedJavaFile>();
 		
-		Interface inter = new Interface(targetPackage + "." + className);
+		Interface inter = new Interface(serviceInterPackage + "." + className);
 		
 		// 导入包
 		inter.addImportedType(new FullyQualifiedJavaType("java.util.List"));
@@ -132,7 +134,7 @@ public class ServiceInterPlugin extends PluginAdapter{
 		inter.addMethod(updateByPrimaryKey);
 		
 		JavaFormatter javaFormatter = introspectedTable.getContext().getJavaFormatter();
-		GeneratedJavaFile serviceFile = new GeneratedJavaFile(inter, targetProject, javaFormatter);
+		GeneratedJavaFile serviceFile = new GeneratedJavaFile(inter, serviceInterPath, javaFormatter);
 		
 		
 		result.add(serviceFile);

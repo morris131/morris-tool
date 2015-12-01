@@ -1,4 +1,4 @@
-package com.morris.util.mybatis;
+package com.morris.util.mybatis.plugin;
 
 import java.util.ArrayList;
 import java.util.List;

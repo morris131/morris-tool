@@ -1,4 +1,4 @@
-package com.morris.util.mybatis;
+package com.morris.util.mybatis.plugin;
 
 import java.util.List;
 import java.util.Properties;

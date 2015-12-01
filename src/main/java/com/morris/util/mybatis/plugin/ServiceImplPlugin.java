@@ -1,9 +1,7 @@
-package com.morris.util.mybatis;
+package com.morris.util.mybatis.plugin;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import oracle.net.aso.f;
 
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -23,14 +21,12 @@ public class ServiceImplPlugin extends PluginAdapter{
 	
 	@Override
 	public boolean validate(List<String> warnings) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	
 	@Override
 	public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(IntrospectedTable introspectedTable) {
-		// TODO Auto-generated method stub
 		
 		properties = this.getContext().getProperties();
 		
@@ -41,7 +37,6 @@ public class ServiceImplPlugin extends PluginAdapter{
 		// 首字母小写
 		String daoClassName = domainObjectName + "Dao";
 		String daoName = daoClassName.substring(0, 1).toLowerCase() + daoClassName.substring(1);
-		String overideAnnotation = "java.lang.Override";
 		
 		String serviceInterPackage = properties.getProperty("serviceInterPackage");
 		String targetPackage = properties.getProperty("serviceImplPackage");
@@ -76,6 +71,8 @@ public class ServiceImplPlugin extends PluginAdapter{
 		serviceClass.addImportedType(daoPackage + "." + daoClassName);
 		serviceClass.addImportedType("org.apache.ibatis.session.RowBounds");
 		serviceClass.addImportedType("org.springframework.stereotype.Service");
+		serviceClass.addImportedType("org.springframework.transaction.annotation.Transactional");
+
 		serviceClass.addImportedType("javax.annotation.Resource");
 		
 		serviceClass.setVisibility(JavaVisibility.PUBLIC);
@@ -85,6 +82,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		// 添加注解
 		serviceClass.addAnnotation("@Service");
+		serviceClass.addAnnotation("@Transactional");
 		
 		Field field = new Field();
 		field.addAnnotation("@Resource");
@@ -96,7 +94,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 
 		Method countByExample = new Method("countByExample");
 		countByExample.setVisibility(JavaVisibility.PUBLIC);
-		//countByExample.addAnnotation(overideAnnotation);
+		countByExample.addAnnotation("@Override");
 		countByExample.setReturnType(new FullyQualifiedJavaType("int"));
 		countByExample.addParameter(fullEntityExampleParamter);
 		countByExample.addBodyLine("return "+ daoName+".countByExample(example);");
@@ -104,6 +102,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method deleteByExample = new Method("deleteByExample");
 		deleteByExample.setVisibility(JavaVisibility.PUBLIC);
+		deleteByExample.addAnnotation("@Override");
 		deleteByExample.setReturnType(new FullyQualifiedJavaType("int"));
 		deleteByExample.addParameter(fullEntityExampleParamter);
 		deleteByExample.addBodyLine("return "+ daoName+".deleteByExample(example);");
@@ -111,6 +110,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method deleteByPrimaryKey = new Method("deleteByPrimaryKey");
 		deleteByPrimaryKey.setVisibility(JavaVisibility.PUBLIC);
+		deleteByPrimaryKey.addAnnotation("@Override");
 		deleteByPrimaryKey.setReturnType(new FullyQualifiedJavaType("int"));
 		deleteByPrimaryKey.addParameter(keyParamter);
 		deleteByPrimaryKey.addBodyLine("return "+ daoName+".deleteByPrimaryKey(" + keyName + ");");
@@ -118,6 +118,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method insert = new Method("insert");
 		insert.setVisibility(JavaVisibility.PUBLIC);
+		insert.addAnnotation("@Override");
 		insert.setReturnType(new FullyQualifiedJavaType("int"));
 		insert.addParameter(fullEntityParamter);
 		insert.addBodyLine("return "+ daoName+".insert(record);");
@@ -125,6 +126,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method insertSelective = new Method("insertSelective");
 		insertSelective.setVisibility(JavaVisibility.PUBLIC);
+		insertSelective.addAnnotation("@Override");
 		insertSelective.setReturnType(new FullyQualifiedJavaType("int"));
 		insertSelective.addParameter(fullEntityParamter);
 		insertSelective.addBodyLine("return "+ daoName+".insert(record);");
@@ -132,6 +134,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method selectByExampleWithRowbounds = new Method("selectByExampleWithRowbounds");
 		selectByExampleWithRowbounds.setVisibility(JavaVisibility.PUBLIC);
+		selectByExampleWithRowbounds.addAnnotation("@Override");
 		selectByExampleWithRowbounds.setReturnType(new FullyQualifiedJavaType("java.util.List<" + fullEntityName + ">"));
 		selectByExampleWithRowbounds.addParameter(fullEntityExampleParamter);
 		selectByExampleWithRowbounds.addParameter(new Parameter(new FullyQualifiedJavaType("int"), "begin"));
@@ -141,6 +144,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method selectByExample = new Method("selectByExample");
 		selectByExample.setVisibility(JavaVisibility.PUBLIC);
+		selectByExample.addAnnotation("@Override");
 		selectByExample.setReturnType(new FullyQualifiedJavaType("java.util.List<" + fullEntityName + ">"));
 		selectByExample.addParameter(fullEntityExampleParamter);
 		selectByExample.addBodyLine("return " + daoName + ".selectByExample(example);");
@@ -148,6 +152,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method selectByPrimaryKey = new Method("selectByPrimaryKey");
 		selectByPrimaryKey.setVisibility(JavaVisibility.PUBLIC);
+		selectByPrimaryKey.addAnnotation("@Override");
 		selectByPrimaryKey.setReturnType(fullEntityNameType);
 		selectByPrimaryKey.addParameter(keyParamter);
 		selectByPrimaryKey.addBodyLine("return " + daoName + ".selectByPrimaryKey(" + keyName + ");");
@@ -155,6 +160,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method updateByExampleSelective = new Method("updateByExampleSelective");
 		updateByExampleSelective.setVisibility(JavaVisibility.PUBLIC);
+		updateByExampleSelective.addAnnotation("@Override");
 		updateByExampleSelective.setReturnType(new FullyQualifiedJavaType("int"));
 		updateByExampleSelective.addParameter(fullEntityParamter);
 		updateByExampleSelective.addParameter(fullEntityExampleParamter);
@@ -163,6 +169,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method updateByExample = new Method("updateByExample");
 		updateByExample.setVisibility(JavaVisibility.PUBLIC);
+		updateByExample.addAnnotation("@Override");
 		updateByExample.setReturnType(new FullyQualifiedJavaType("int"));
 		updateByExample.addParameter(fullEntityParamter);
 		updateByExample.addParameter(fullEntityExampleParamter);
@@ -171,6 +178,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method updateByPrimaryKeySelective = new Method("updateByPrimaryKeySelective");
 		updateByPrimaryKeySelective.setVisibility(JavaVisibility.PUBLIC);
+		updateByPrimaryKeySelective.addAnnotation("@Override");
 		updateByPrimaryKeySelective.setReturnType(new FullyQualifiedJavaType("int"));
 		updateByPrimaryKeySelective.addParameter(fullEntityParamter);
 		updateByPrimaryKeySelective.addBodyLine("return " + daoName +".updateByPrimaryKeySelective(record);");
@@ -178,6 +186,7 @@ public class ServiceImplPlugin extends PluginAdapter{
 		
 		Method updateByPrimaryKey = new Method("updateByPrimaryKey");
 		updateByPrimaryKey.setVisibility(JavaVisibility.PUBLIC);
+		updateByPrimaryKey.addAnnotation("@Override");
 		updateByPrimaryKey.setReturnType(new FullyQualifiedJavaType("int"));
 		updateByPrimaryKey.addParameter(fullEntityParamter);
 		updateByPrimaryKey.addBodyLine("return " + daoName +".updateByPrimaryKey(record);");

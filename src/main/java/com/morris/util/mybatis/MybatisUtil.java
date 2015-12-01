@@ -51,12 +51,12 @@ public class MybatisUtil {
 		// 插件
 		// 序列化插件
 		PluginConfiguration serializablePlugin = new PluginConfiguration();
-		serializablePlugin.setConfigurationType("com.morris.util.mybatis.SerializablePlugin");
+		serializablePlugin.setConfigurationType("com.morris.util.mybatis.plugin.SerializablePlugin");
 		context.addPluginConfiguration(serializablePlugin);
 		
 		// 注释插件
 		PluginConfiguration tableCommentPlugin = new PluginConfiguration();
-		tableCommentPlugin.setConfigurationType("com.morris.util.mybatis.TableCommentPlugin");
+		tableCommentPlugin.setConfigurationType("com.morris.util.mybatis.plugin.TableCommentPlugin");
 		context.addPluginConfiguration(tableCommentPlugin);
 		
 		// 分页插件
@@ -76,13 +76,18 @@ public class MybatisUtil {
 		
 		// service接口插件
 		PluginConfiguration serviceInterPluginPlugin = new PluginConfiguration();
-		serviceInterPluginPlugin.setConfigurationType("com.morris.util.mybatis.ServiceInterPlugin");
+		serviceInterPluginPlugin.setConfigurationType("com.morris.util.mybatis.plugin.ServiceInterPlugin");
 		context.addPluginConfiguration(serviceInterPluginPlugin);
 		
 		// service接口插件
 		PluginConfiguration serviceImplPluginPlugin = new PluginConfiguration();
-		serviceImplPluginPlugin.setConfigurationType("com.morris.util.mybatis.ServiceImplPlugin");
+		serviceImplPluginPlugin.setConfigurationType("com.morris.util.mybatis.plugin.ServiceImplPlugin");
 		context.addPluginConfiguration(serviceImplPluginPlugin);
+		
+		// dao 插件
+		PluginConfiguration daoPlugin = new PluginConfiguration();
+		daoPlugin.setConfigurationType("com.morris.util.mybatis.plugin.DaoPlugin");
+		context.addPluginConfiguration(daoPlugin);
 		
 		// 实体类的生成
 		JavaModelGeneratorConfiguration model = new JavaModelGeneratorConfiguration();

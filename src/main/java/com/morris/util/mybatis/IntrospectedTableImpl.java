@@ -25,12 +25,6 @@ import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.ObjectFactory;
 
 public class IntrospectedTableImpl extends IntrospectedTable {
-	
-//	@Override
-//	public String getMyBatis3JavaMapperType() {
-//		//ATTR_MYBATIS3_JAVA_MAPPER_TYPE
-//		return internalAttributes.get(InternalAttribute.ATTR_BASE_RECORD_TYPE) + "Dao";
-//	}
 
 	protected List<AbstractJavaGenerator> javaModelGenerators;
 	protected List<AbstractJavaGenerator> clientGenerators;
@@ -41,41 +35,43 @@ public class IntrospectedTableImpl extends IntrospectedTable {
 		javaModelGenerators = new ArrayList<AbstractJavaGenerator>();
 		clientGenerators = new ArrayList<AbstractJavaGenerator>();
 	}
-	
-	 protected void calculateJavaClientAttributes() {
-	        if (context.getJavaClientGeneratorConfiguration() == null) {
-	            return;
-	        }
 
-	        StringBuilder sb = new StringBuilder();
-	        sb.append(calculateJavaClientImplementationPackage());
-	        sb.append('.');
-	        sb.append(fullyQualifiedTable.getDomainObjectName());
-	        sb.append("DaoImpl"); //$NON-NLS-1$
-	        setDAOImplementationType(sb.toString());
+	/**
+	 * 覆盖父类，修改model的后缀mapper为dao
+	 */
+	protected void calculateJavaClientAttributes() {
+		if (context.getJavaClientGeneratorConfiguration() == null) {
+			return;
+		}
 
-	        sb.setLength(0);
-	        sb.append(calculateJavaClientInterfacePackage());
-	        sb.append('.');
-	        sb.append(fullyQualifiedTable.getDomainObjectName());
-	        sb.append("Dao"); //$NON-NLS-1$
-	        setDAOInterfaceType(sb.toString());
+		StringBuilder sb = new StringBuilder();
+		sb.append(calculateJavaClientImplementationPackage());
+		sb.append('.');
+		sb.append(fullyQualifiedTable.getDomainObjectName());
+		sb.append("DaoImpl"); 
+		setDAOImplementationType(sb.toString());
 
-	        sb.setLength(0);
-	        sb.append(calculateJavaClientInterfacePackage());
-	        sb.append('.');
-	        sb.append(fullyQualifiedTable.getDomainObjectName());
-	        sb.append("Dao"); //$NON-NLS-1$
-	        setMyBatis3JavaMapperType(sb.toString());
+		sb.setLength(0);
+		sb.append(calculateJavaClientInterfacePackage());
+		sb.append('.');
+		sb.append(fullyQualifiedTable.getDomainObjectName());
+		sb.append("Dao"); 
+		setDAOInterfaceType(sb.toString());
 
-	        sb.setLength(0);
-	        sb.append(calculateJavaClientInterfacePackage());
-	        sb.append('.');
-	        sb.append(fullyQualifiedTable.getDomainObjectName());
-	        sb.append("SqlProvider"); //$NON-NLS-1$
-	        setMyBatis3SqlProviderType(sb.toString());
-	    }
+		sb.setLength(0);
+		sb.append(calculateJavaClientInterfacePackage());
+		sb.append('.');
+		sb.append(fullyQualifiedTable.getDomainObjectName());
+		sb.append("Dao"); 
+		setMyBatis3JavaMapperType(sb.toString());
 
+		sb.setLength(0);
+		sb.append(calculateJavaClientInterfacePackage());
+		sb.append('.');
+		sb.append(fullyQualifiedTable.getDomainObjectName());
+		sb.append("SqlProvider"); 
+		setMyBatis3SqlProviderType(sb.toString());
+	}
 
 	@Override
 	public void calculateGenerators(List<String> warnings, ProgressCallback progressCallback) {
@@ -128,13 +124,13 @@ public class IntrospectedTableImpl extends IntrospectedTable {
 		String type = context.getJavaClientGeneratorConfiguration().getConfigurationType();
 
 		AbstractJavaClientGenerator javaGenerator;
-		if ("XMLMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+		if ("XMLMAPPER".equalsIgnoreCase(type)) { 
 			javaGenerator = new JavaMapperGenerator();
-		} else if ("MIXEDMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+		} else if ("MIXEDMAPPER".equalsIgnoreCase(type)) {
 			javaGenerator = new MixedClientGenerator();
-		} else if ("ANNOTATEDMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+		} else if ("ANNOTATEDMAPPER".equalsIgnoreCase(type)) {
 			javaGenerator = new AnnotatedClientGenerator();
-		} else if ("MAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+		} else if ("MAPPER".equalsIgnoreCase(type)) {
 			javaGenerator = new JavaMapperGenerator();
 		} else {
 			javaGenerator = (AbstractJavaClientGenerator) ObjectFactory.createInternalObject(type);
