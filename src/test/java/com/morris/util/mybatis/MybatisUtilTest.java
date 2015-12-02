@@ -25,6 +25,10 @@ public class MybatisUtilTest{
 		bean.setServiceInterPath(xmlPath);
 		bean.setServiceImplPackage("cn.tempus.prodcloud.service.refund");
 		bean.setServiceImplPath(xmlPath);
+		
+		bean.setControllerPath(xmlPath);
+		bean.setControllerPackage("cn.tempus.prodcloud.controller.refund");
+		
 		bean.addTable("REFUND_TSL_EXTRACT_FILE", "RefundTslExtractFile");
 		
 		MybatisUtil.generate(bean);

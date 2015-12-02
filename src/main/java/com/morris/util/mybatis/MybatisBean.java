@@ -34,10 +34,14 @@ public class MybatisBean implements Serializable {
 	private String serviceInterPackage;
 
 	private String serviceInterPath;
-	
+
 	private String serviceImplPackage;
 
 	private String serviceImplPath;
+
+	private String controllerPackage;
+
+	private String controllerPath;
 
 	private Map<String, String> tableMap;
 
@@ -167,7 +171,21 @@ public class MybatisBean implements Serializable {
 	public void setServiceImplPath(String serviceImplPath) {
 		this.serviceImplPath = serviceImplPath;
 	}
-	
-	
+
+	public String getControllerPackage() {
+		return controllerPackage;
+	}
+
+	public void setControllerPackage(String controllerPackage) {
+		this.controllerPackage = controllerPackage;
+	}
+
+	public String getControllerPath() {
+		return controllerPath;
+	}
+
+	public void setControllerPath(String controllerPath) {
+		this.controllerPath = controllerPath;
+	}
 
 }
