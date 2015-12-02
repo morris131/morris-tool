@@ -79,7 +79,7 @@ public class MybatisUtil {
 		serviceInterPluginPlugin.setConfigurationType("com.morris.util.mybatis.plugin.ServiceInterPlugin");
 		context.addPluginConfiguration(serviceInterPluginPlugin);
 		
-		// service接口插件
+		// service实现插件
 		PluginConfiguration serviceImplPluginPlugin = new PluginConfiguration();
 		serviceImplPluginPlugin.setConfigurationType("com.morris.util.mybatis.plugin.ServiceImplPlugin");
 		context.addPluginConfiguration(serviceImplPluginPlugin);
@@ -88,6 +88,11 @@ public class MybatisUtil {
 		PluginConfiguration daoPlugin = new PluginConfiguration();
 		daoPlugin.setConfigurationType("com.morris.util.mybatis.plugin.DaoPlugin");
 		context.addPluginConfiguration(daoPlugin);
+		
+		// controller 插件
+		PluginConfiguration controllerPlugin = new PluginConfiguration();
+		controllerPlugin.setConfigurationType("com.morris.util.mybatis.plugin.ControllerPlugin");
+		context.addPluginConfiguration(controllerPlugin);
 		
 		// 实体类的生成
 		JavaModelGeneratorConfiguration model = new JavaModelGeneratorConfiguration();
@@ -125,6 +130,8 @@ public class MybatisUtil {
 		context.addProperty("serviceInterPath", bean.getServiceInterPath());
 		context.addProperty("serviceImplPackage", bean.getServiceImplPackage());
 		context.addProperty("serviceImplPath", bean.getServiceImplPath());
+		context.addProperty("controllerPackage", bean.getControllerPackage());
+		context.addProperty("controllerPath", bean.getControllerPath());
 		
 		config.addContext(context);
 		DefaultShellCallback callback = new DefaultShellCallback(true);
