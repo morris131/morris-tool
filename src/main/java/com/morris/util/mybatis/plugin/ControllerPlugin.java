@@ -51,19 +51,9 @@ public class ControllerPlugin extends PluginAdapter{
 		IntrospectedColumn primaryColumn = introspectedTable.getPrimaryKeyColumns().get(0);
 		String keyName = primaryColumn.getJavaProperty();
 		FullyQualifiedJavaType keyType = primaryColumn.getFullyQualifiedJavaType();
-		
-		//String fullEntityName = entityPackage + "." + domainObjectName;
-		//String fullEntityExampleName = entityPackage + "." + domainObjectName + "Example";
-		
-		//FullyQualifiedJavaType fullEntityNameType = new FullyQualifiedJavaType(fullEntityName);
-		//FullyQualifiedJavaType fullEntityExampleNameType = new FullyQualifiedJavaType(fullEntityExampleName);
-		
+	
 		Parameter keyParamter = new Parameter(keyType, keyName);
 		Parameter entityParamter = new Parameter(new FullyQualifiedJavaType(entityPackage + "." + domainObjectName), "record");
-		//Parameter fullEntityExampleParamter = new Parameter(fullEntityExampleNameType, "example");
-		//Parameter keyParamter = new Parameter(keyType, keyName);
-		
-		
 		
 		List<GeneratedJavaFile> result = new ArrayList<GeneratedJavaFile>();
 		
@@ -80,9 +70,6 @@ public class ControllerPlugin extends PluginAdapter{
 		serviceClass.addImportedType("javax.annotation.Resource");
 		
 		serviceClass.setVisibility(JavaVisibility.PUBLIC);
-		
-		// 添加实现接口
-		//serviceClass.addSuperInterface(new FullyQualifiedJavaType(serviceInterPackage + "." + domainObjectName + "WsService"));
 		
 		// 添加注解
 		serviceClass.addAnnotation("@Controller");
