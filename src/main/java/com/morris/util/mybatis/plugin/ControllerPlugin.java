@@ -42,7 +42,7 @@ public class ControllerPlugin extends PluginAdapter{
 		// 首字母小写
 		String serviceClassName = domainObjectName + "WsService";
 		String serviceName = serviceClassName.substring(0, 1).toLowerCase() + serviceClassName.substring(1);
-		String requestMappingName = domainObjectName.substring(0, 1).toLowerCase()+domainObjectName.substring(1, domainObjectName.length());
+		
 		String controllerPackage = properties.getProperty("controllerPackage");
 		String controllerPath = properties.getProperty("controllerPath");
 		String entityPackage = properties.getProperty("entityPackage");
@@ -71,12 +71,10 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		// 导入包
 		serviceClass.addImportedType(new FullyQualifiedJavaType("java.util.List"));
-		serviceClass.addImportedType(new FullyQualifiedJavaType("org.springframework.ui.Model"));
 		serviceClass.addImportedType(serviceInterPackage + "." + serviceClassName);
 		serviceClass.addImportedType(entityPackage + "." +domainObjectName);
 		serviceClass.addImportedType("org.springframework.stereotype.Controller");
-        serviceClass.addImportedType("org.springframework.web.bind.annotation.RequestMapping");
-        serviceClass.addImportedType("cn.tempus.prodcloud.entity.refund."+tableConfiguration.getDomainObjectName()+"Example");
+
 		serviceClass.addImportedType("javax.annotation.Resource");
 		
 		serviceClass.setVisibility(JavaVisibility.PUBLIC);
@@ -86,7 +84,7 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		// 添加注解
 		serviceClass.addAnnotation("@Controller");
-		serviceClass.addAnnotation("@RequestMapping(value="+'"'+requestMappingName+'"'+")");
+		
 		Field field = new Field();
 		field.addAnnotation("@Resource");
 		field.setVisibility(JavaVisibility.PRIVATE);
@@ -97,19 +95,14 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		Method toList = new Method("toList");
 		toList.setVisibility(JavaVisibility.PUBLIC);
-		toList.addAnnotation("@RequestMapping(value="+'"'+"to"+tableConfiguration.getDomainObjectName()+"List"+'"'+")");
 		toList.setReturnType(new FullyQualifiedJavaType("java.lang.String"));
-		toList.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.Model"), "model"));
-		toList.addBodyLine(tableConfiguration.getDomainObjectName()+"Example example = new "+ tableConfiguration.getDomainObjectName()+"Example();");
-		toList.addBodyLine("List<"+tableConfiguration.getDomainObjectName()+"> list"+tableConfiguration.getDomainObjectName()+" = "+
-		serviceName + ".selectByExampleWithRowbounds(example,0,0);");
-		toList.addBodyLine("model.addAttribute("+'"'+"list"+tableConfiguration.getDomainObjectName()+'"'+", list"+tableConfiguration.getDomainObjectName()+");");
+		toList.addParameter(new Parameter(new FullyQualifiedJavaType("org.springframework.ui.Model"), "modal"));
+		//toList.addBodyLine(serviceName + ".insert(record);");
 		toList.addBodyLine("return \"\";");
 		serviceClass.addMethod(toList);
 
 		Method insert = new Method("insert");
 		insert.setVisibility(JavaVisibility.PUBLIC);
-		insert.addAnnotation("@RequestMapping(value="+'"'+"insert"+tableConfiguration.getDomainObjectName()+'"'+")");
 		insert.setReturnType(new FullyQualifiedJavaType("java.lang.String"));
 		insert.addParameter(entityParamter);
 		insert.addBodyLine(serviceName + ".insert(record);");
@@ -118,7 +111,6 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		Method findById = new Method("findById");
 		findById.setVisibility(JavaVisibility.PUBLIC);
-		findById.addAnnotation("@RequestMapping(value="+'"'+"find"+tableConfiguration.getDomainObjectName()+"ById"+'"'+")");
 		findById.setReturnType(new FullyQualifiedJavaType(entityPackage + "." + domainObjectName));
 		findById.addParameter(keyParamter);
 		findById.addBodyLine("return " + serviceName + ".selectByPrimaryKey(" + keyName + ");");
@@ -126,7 +118,6 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		Method deleteById = new Method("deleteById");
 		deleteById.setVisibility(JavaVisibility.PUBLIC);
-		deleteById.addAnnotation("@RequestMapping(value="+'"'+"delete"+tableConfiguration.getDomainObjectName()+"ById"+'"'+")");
 		deleteById.setReturnType(new FullyQualifiedJavaType("java.lang.String"));
 		deleteById.addParameter(keyParamter);
 		deleteById.addBodyLine(serviceName + ".deleteByPrimaryKey(" + keyName + ");");
@@ -135,12 +126,11 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		Method updateById = new Method("updateById");
 		updateById.setVisibility(JavaVisibility.PUBLIC);
-		updateById.addAnnotation("@RequestMapping(value="+'"'+"update"+tableConfiguration.getDomainObjectName()+"ById"+'"'+")");
 		updateById.setReturnType(new FullyQualifiedJavaType("String"));
 		updateById.addParameter(entityParamter);
-		updateById.addBodyLine(serviceName+".updateByPrimaryKey(record);");
 		updateById.addBodyLine("return \"\";");
 		serviceClass.addMethod(updateById);
+		
 		JavaFormatter javaFormatter = introspectedTable.getContext().getJavaFormatter();
 		GeneratedJavaFile serviceFile = new GeneratedJavaFile(serviceClass, controllerPath, javaFormatter);
 		
