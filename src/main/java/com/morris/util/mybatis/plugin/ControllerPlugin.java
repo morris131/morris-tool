@@ -59,7 +59,7 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		TopLevelClass serviceClass = new TopLevelClass(controllerPackage + "." + className);
 		
-		// 导入包
+		// 导入包 
 		serviceClass.addImportedType(new FullyQualifiedJavaType("java.util.List"));
 		serviceClass.addImportedType(new FullyQualifiedJavaType("org.springframework.ui.Model"));
 		serviceClass.addImportedType(serviceInterPackage + "." + serviceClassName);
