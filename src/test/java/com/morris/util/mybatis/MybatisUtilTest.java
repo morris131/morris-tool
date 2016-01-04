@@ -34,4 +34,36 @@ public class MybatisUtilTest{
 		MybatisUtil.generate(bean);
 		
 	}
+	
+	@Test
+	public void testGenerate2() {
+		
+		MybatisBean bean = new MybatisBean();
+		
+		bean.setDriverClass("oracle.jdbc.driver.OracleDriver");
+		bean.setConnectionUrl("jdbc:oracle:thin:@172.16.92.24:1521:neikong");
+		bean.setUserName("tcpmain1");
+		bean.setPassword("tcpmain9");
+		String xmlPackage = "xml";
+		bean.setXmlPackage(xmlPackage);
+		String xmlPath = "src/main/java";
+		bean.setXmlPath(xmlPath);
+		bean.setEntityPackage("cn.tempus.prodcloud.entity.order");
+		bean.setEntityPath(xmlPath);
+		bean.setDaoPackage("cn.tempus.prodcloud.dao.refund");
+		bean.setDaoPath(xmlPath);
+		bean.setServiceInterPackage("cn.tempus.prodcloud.entity.order");
+		bean.setServiceInterPath(xmlPath);
+		bean.setServiceImplPackage("cn.tempus.prodcloud.entity.order");
+		bean.setServiceImplPath(xmlPath);
+		
+		bean.setControllerPath(xmlPath);
+		bean.setControllerPackage("cn.tempus.prodcloud.controller.refund");
+		
+		bean.addTable("OD_ORDER_DISCARD", "OdOrderDiscard");
+		bean.addTable("OD_ORDER_DISCARD_DETAIL", "OdOrderDiscardDetail");
+		
+		MybatisUtil.generate(bean);
+		
+	}
 }

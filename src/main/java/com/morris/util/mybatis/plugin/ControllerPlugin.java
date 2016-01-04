@@ -18,7 +18,7 @@ import org.mybatis.generator.config.TableConfiguration;
 
 /**
  * 生成controller插件
- * @author lian.chen
+ * @author Morris
  *
  */
 public class ControllerPlugin extends PluginAdapter{
@@ -82,6 +82,7 @@ public class ControllerPlugin extends PluginAdapter{
 		
 		serviceClass.addField(field);
 		
+		// 分页查询
 		Method toList = new Method("toList");
 		toList.setVisibility(JavaVisibility.PUBLIC);
 		toList.addAnnotation("@RequestMapping(value="+'"'+"to"+tableConfiguration.getDomainObjectName()+"List"+'"'+")");
@@ -94,6 +95,7 @@ public class ControllerPlugin extends PluginAdapter{
 		toList.addBodyLine("return \"\";");
 		serviceClass.addMethod(toList);
 
+		// 新增
 		Method insert = new Method("insert");
 		insert.setVisibility(JavaVisibility.PUBLIC);
 		insert.addAnnotation("@RequestMapping(value="+'"'+"insert"+tableConfiguration.getDomainObjectName()+'"'+")");
@@ -103,6 +105,7 @@ public class ControllerPlugin extends PluginAdapter{
 		insert.addBodyLine("return \"\";");
 		serviceClass.addMethod(insert);
 		
+		// 根据主键查找
 		Method findById = new Method("findById");
 		findById.setVisibility(JavaVisibility.PUBLIC);
 		findById.addAnnotation("@RequestMapping(value="+'"'+"find"+tableConfiguration.getDomainObjectName()+"ById"+'"'+")");
@@ -111,6 +114,7 @@ public class ControllerPlugin extends PluginAdapter{
 		findById.addBodyLine("return " + serviceName + ".selectByPrimaryKey(" + keyName + ");");
 		serviceClass.addMethod(findById);
 		
+		// 根据主键删除
 		Method deleteById = new Method("deleteById");
 		deleteById.setVisibility(JavaVisibility.PUBLIC);
 		deleteById.addAnnotation("@RequestMapping(value="+'"'+"delete"+tableConfiguration.getDomainObjectName()+"ById"+'"'+")");
@@ -120,6 +124,7 @@ public class ControllerPlugin extends PluginAdapter{
 		deleteById.addBodyLine("return \"\";");
 		serviceClass.addMethod(deleteById);
 		
+		// 根据主键更新
 		Method updateById = new Method("updateById");
 		updateById.setVisibility(JavaVisibility.PUBLIC);
 		updateById.addAnnotation("@RequestMapping(value="+'"'+"update"+tableConfiguration.getDomainObjectName()+"ById"+'"'+")");

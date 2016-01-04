@@ -14,6 +14,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * 压缩和解压缩文件
+ * @author Morris
+ *
+ */
 public class ZipUtil {
 
 	// ------------------------------压缩文件begin----------------------------------------
